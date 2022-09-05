@@ -28,8 +28,6 @@ FirebaseData firebaseData;
 
 // Declare global variable to store value
 
-
-
 void setup() {
 
   Serial.begin(115200);// Select the same baud rate if you want to see the datas on Serial Monitor
@@ -63,8 +61,10 @@ void setup() {
   Serial.println();
   Serial.print("Connected to ");
   Serial.println(WIFI_SSID);
+  
   Serial.print("IP Address is : ");
   Serial.println(WiFi.localIP());                                            //print local IP address
+
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);   // connect to firebase
 
   Firebase.reconnectWiFi(true);
@@ -79,17 +79,18 @@ void loop() {
   Serial.println(val);
   //delay(1000);
 
+  int currentTimeStamp = timeClient.getTime();
 
-  if (Firebase.setInt(firebaseData, "/data", val)) {    // On successful Write operation, function returns 1
+  if (Firebase.setInt(firebaseData, "/data/"+currentTimeStamp, val)) {    // On successful Write operation, function returns 1
     Serial.println("Value Uploaded Successfully");
     val++;
     delay(1000);
-
   }
 
   else {
     Serial.println(firebaseData.errorReason());
   }
+
   timeClient.update();
 
   time_t epochTime = timeClient.getEpochTime();
