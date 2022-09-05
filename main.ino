@@ -81,9 +81,8 @@ void loop() {
 
   int currentTimeStamp = timeClient.getTime();
 
-  if (Firebase.setInt(firebaseData, "/data/"+currentTimeStamp, val)) {    // On successful Write operation, function returns 1
+  if (Firebase.setInt(firebaseData, "/data/"+currentTimeStamp+"/", val)) {    // On successful Write operation, function returns 1
     Serial.println("Value Uploaded Successfully");
-    val++;
     delay(1000);
   }
 
